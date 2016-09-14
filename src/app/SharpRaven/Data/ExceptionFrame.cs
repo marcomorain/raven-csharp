@@ -234,9 +234,9 @@ namespace SharpRaven.Data
         }
 
         /// <summary>
-        /// Demangle function names create when C# compilers lower newer language features such as async/await calls.
+        /// Demangle function names created when C# compilers lower newer language features such as async/await calls.
         /// </summary>
-        private void Demangle() {
+        public void Demangle() {
             if (Function == "MoveNext" && Module != null) {
 
                 // Clean up the the `async` state machine calls.
@@ -250,8 +250,8 @@ namespace SharpRaven.Data
                 var mangled = @"^(.*)\+<(\w*)>d__\d*$";
                 var match = Regex.Match(Module, mangled);
                 if (match.Success && match.Groups.Count == 3) {
-                    //Module = match.Groups[1].Value;
-                    //Function = match.Groups[2].Value;
+                    Module = match.Groups[1].Value;
+                    Function = match.Groups[2].Value;
                 }
             }
         }

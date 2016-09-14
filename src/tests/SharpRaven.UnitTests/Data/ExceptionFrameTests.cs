@@ -68,6 +68,20 @@ namespace SharpRaven.UnitTests.Data
         }
 
         [Test]
+        public void Constructor_AsyncFramesAreDemangled() {
+
+            var frame = new ExceptionFrame(new StackFrame("Test.cs", 13));
+
+            frame.Module = "Foo.Bar.RemotePrinterService+<UpdateNotification>d__24";
+            frame.Function = "MoveNext";
+
+            frame.Demangle();
+
+            Assert.AreEqual("UpdateNotification", frame.Function);
+            Assert.AreEqual("Foo.Bar.RemotePrinterService", frame.Module);
+        }
+
+        [Test]
         public void Constructor_InAppFrames_Identified()
         {
             try
