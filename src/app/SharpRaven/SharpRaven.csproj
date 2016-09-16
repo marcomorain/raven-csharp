@@ -106,6 +106,7 @@
     <Compile Include="Data\SentryRequestFactory.cs" />
     <Compile Include="Data\SentryStacktrace.cs" />
     <Compile Include="Data\SentryUser.cs" />
+    <Compile Include="Utilities\StackTraceUtil.cs" />
     <Compile Include="Dsn.cs" />
     <Compile Include="Data\JsonPacket.cs" />
     <Compile Include="IRavenClient.cs" />

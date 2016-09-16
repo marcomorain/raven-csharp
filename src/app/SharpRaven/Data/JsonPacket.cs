@@ -395,6 +395,10 @@ namespace SharpRaven.Data
                     Exceptions.Add(sentryException);
                 }
             }
+
+            foreach (var e in Exceptions) {
+                StackTraceUtil.Demangle(e);
+            }
         }
     }
 }

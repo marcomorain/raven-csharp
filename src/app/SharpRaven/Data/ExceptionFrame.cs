@@ -33,7 +33,6 @@ using System.Diagnostics;
 using System.Text;
 
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace SharpRaven.Data
 {
@@ -82,7 +81,6 @@ namespace SharpRaven.Data
             LineNumber = lineNo;
             ColumnNumber = frame.GetFileColumnNumber();
             InApp = !IsSystemModuleName(Module);
-            Demangle();
         }
 
 
@@ -231,29 +229,6 @@ namespace SharpRaven.Data
             return !string.IsNullOrEmpty(moduleName) &&
                 (moduleName.StartsWith("System.",    System.StringComparison.Ordinal) ||
                  moduleName.StartsWith("Microsoft.", System.StringComparison.Ordinal));
-        }
-
-        /// <summary>
-        /// Demangle function names created when C# compilers lower newer language features such as async/await calls.
-        /// </summary>
-        public void Demangle() {
-            if (Function == "MoveNext" && Module != null) {
-
-                // Clean up the the `async` state machine calls.
-                // Search for the function name in angle brackets followed by d__<digits>.
-                //
-                // Change:
-                //   RemotePrinterService+<UpdateNotification>d__24 in MoveNext at line 457:13
-                // to:
-                //   RemotePrinterService in UpdateNotification at line 457:13
-
-                var mangled = @"^(.*)\+<(\w*)>d__\d*$";
-                var match = Regex.Match(Module, mangled);
-                if (match.Success && match.Groups.Count == 3) {
-                    Module = match.Groups[1].Value;
-                    Function = match.Groups[2].Value;
-                }
-            }
         }
     }
 }
